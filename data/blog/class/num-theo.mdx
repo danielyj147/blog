@@ -53,7 +53,7 @@ Then the following are equivalent:
 
 Thus, the remainders are equal, and any one of (i), (ii), or (iii) proves the other two.
 
-### Theorem 7
+## Theorem 7
 
 Basic Properties of Congruence Modulo $m$:
 
@@ -72,13 +72,58 @@ When a relationship between elements of a set $S$ is reflexive, symmetric, and t
 
 Thus, **Theorem 7** says that "congruence modulo $m$" is an equivalence relation on the set $\mathbb{Z}$.
 
-### Theorem 8
+## Theorem 8
 
 Suppose $m \in \mathbb{Z}^+$, and let $a, b, c, d \in \mathbb{Z}$.  
 Then, if $a \equiv b \ (\text{mod}\ m)$ and $c \equiv d \ (\text{mod}\ m)$, we have:
 
 1. $a + c \equiv b + d \ (\text{mod}\ m)$
 2. $ac \equiv bd \ (\text{mod}\ m)$
+3. Let $m \in \mathbb{Z}$ and $a, b, c \in \mathbb{Z}$.
+
+Then
+
+$$
+ca \equiv cb \pmod{m}
+$$
+
+if and only if
+
+$$
+a \equiv b \pmod{\frac{m}{(c,m)}}
+$$
+
+## Chinese Remainder Theorem/CRT (Theorem 9)
+
+Suppose $b_1, \cdots, b_n \in \mathbb{Z}$ and $m_1, \cdots, m_n \in \mathbb{Z}^+$.
+
+Consider the system
+
+$$
+\begin{align*}
+x &\equiv b_1 \pmod{m_1} \\
+x &\equiv b_2 \pmod{m_2} \\
+\vdots \\
+x &\equiv b_n \pmod{m_n}
+\end{align*}
+$$
+
+If $m_1, \cdots, m_n$ are **pairwise relatively prime**, meaning $(m_i, m_j)=1$ where $i \neq j$,
+then the system has a solution.
+
+And all the solutions are $\equiv \pmod{m_1 * m_2 * \cdots * m_n}$
+
+## Fermat's Little Theorem(1640) (Theorem 10)
+
+Let $p$ be prime then:
+
+1. If $a \in \mathbb{Z}$ and $(a, p)=1$, then $a^{p-1}=1 \pmod{p}$
+
+2. For all integers $a$, $a^p \equiv a \pmod{p}$
+
+## Wilson's Theorem (Theorem 11)
+
+For every prime $p$, $(p-1)! \equiv -1 \pmod{p}$
 
 ---
 
@@ -91,6 +136,33 @@ then there exist $x, y \in \mathbb{Z}$ such that $xm + yn = (m, n)$.
 
 Suppose $a$, $b$, $c$ are integers such that $a \mid bc$ and $(a, b) = 1$.  
 Then $a \mid c$.
+
+## Lemma: Division Lemma
+
+If $a$ and $m$ are integers and $m$ is positive, then there exist integers $q$ and $r$ such that $a = qm + r$
+and $0 \le r \le m$
+
+## Lemma: How to check if a congruence is solvable
+
+The congruence $ax \equiv b \pmod{m}$ is solvable if and only if
+
+$$
+(a,m) \mid b
+$$
+
+Then there is a unique solution $x_0$ such that
+
+$$
+0 \le x_0 < \frac{m}{(a,m)}
+$$
+
+Then the complete set of solutions is
+
+$$
+\{x_0 + \frac{m}{(a,m)}t \mid 0 \le t < (a,m) \}
+$$
+
+There are exactly $(a,m)$ incongruent solutions $\mod{m}$
 
 ---
 
@@ -109,10 +181,13 @@ An integer $p$ is prime if $p > 1$ and the only positive integers that divide $p
 Every integer $n \ge 2$ has a unique representation in the form:
 
 $$
-n = p_{1}^{e_{1}} \times p_{2}^{e_{2}} \times p_{3}^{e_{3}} \times \cdots \times p_{k}^{e_{k}}
+
+n = p*{1}^{e*{1}} \times p*{2}^{e*{2}} \times p*{3}^{e*{3}} \times \cdots \times p*{k}^{e*{k}}
+
+
 $$
 
-where the $p$'s are distinct primes and each $e_i \ge 1$.  
+where the $p$'s are distinct primes and each $e_i \ge 1$.
 This is called the prime-power decomposition of $n$.
 
 ## Corollary 2
@@ -120,13 +195,19 @@ This is called the prime-power decomposition of $n$.
 Suppose $n \ge 2$ and the prime-power decomposition (ppd) of $n$ is:
 
 $$
-n = p_{1}^{e_{1}} \times p_{2}^{e_{2}} \times p_{3}^{e_{3}} \times \cdots \times p_{k}^{e_{k}}
+
+n = p*{1}^{e*{1}} \times p*{2}^{e*{2}} \times p*{3}^{e*{3}} \times \cdots \times p*{k}^{e*{k}}
+
+
 $$
 
 Then if $m$ is any positive integer that divides $n$,
 
 $$
-m = p_{1}^{f_{1}} \times p_{2}^{f_{2}} \times p_{3}^{f_{3}} \times \cdots \times p_{k}^{f_{k}}
+
+m = p*{1}^{f*{1}} \times p*{2}^{f*{2}} \times p*{3}^{f*{3}} \times \cdots \times p*{k}^{f*{k}}
+
+
 $$
 
 for some integers $f_1, \cdots, f_k$ such that $0 \le f_i \le e_i$.
@@ -136,19 +217,28 @@ for some integers $f_1, \cdots, f_k$ such that $0 \le f_i \le e_i$.
 If
 
 $$
-n = p_{1}^{c_{1}} \times p_{2}^{c_{2}} \times p_{3}^{c_{3}} \times \cdots \times p_{k}^{c_{k}}
+
+n = p*{1}^{c*{1}} \times p*{2}^{c*{2}} \times p*{3}^{c*{3}} \times \cdots \times p*{k}^{c*{k}}
+
+
 $$
 
 and
 
 $$
-m = p_{1}^{d_{1}} \times p_{2}^{d_{2}} \times p_{3}^{d_{3}} \times \cdots \times p_{k}^{d_{k}},
+
+m = p*{1}^{d*{1}} \times p*{2}^{d*{2}} \times p*{3}^{d*{3}} \times \cdots \times p*{k}^{d*{k}},
+
+
 $$
 
 where $p_1, \cdots, p_k$ are distinct primes, and the $c_i$'s and $d_i$'s are nonnegative integers, then
 
 $$
+
 (m, n) = p_1^{\min(c_1, d_1)} \times p_2^{\min(c_2, d_2)} \times \cdots \times p_k^{\min(c_k, d_k)}
+
+
 $$
 
 ## Corollary 4
@@ -171,7 +261,31 @@ If $a \equiv b \ (\text{mod}\ m)$, then $a^k \equiv b^k \ (\text{mod}\ m)$ for e
 
 ## Corollary 6: Theorem 8-2
 
-If $p(x)$ is a polynomial with integer coefficients and $a \equiv b \ (\text{mod}\ m)$,  
+If $p(x)$ is a polynomial with integer coefficients and $a \equiv b \ (\text{mod}\ m)$,
 then $p(a) \equiv p(b) \ (\text{mod}\ m)$.
+
+---
+
+## Sidenote 1: $(a-m)x \equiv b \pmod{m}$
+
+Given $ax \equiv b \pmod{m}$, since $a-(a-m) = m$,
+
+$$
+a \equiv a-m \pmod{m}
+$$
+
+**In modular arithmetic, any integer is equivalent to itself plus or minus any multiple of the modulus.**
+
+so
+
+$$
+ax \equiv (a-m)x \pmod{m}.
+$$
+
+Thus
+
+$$
+(a-m)x \equiv b \pmod{m}
+$$
 
 [^1]: Remainder notation created by Dr. Daniel Saracino
