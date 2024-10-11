@@ -1,0 +1,772 @@
+---
+title: 'MATH354 Data Analysis I'
+date: '2024-10-05 14:38:00'
+tags: ['class', 'data analysis', 'mathematics', 'notes']
+authors: ['default']
+draft: true
+layout: PostSimple
+summary: 'Notes for MATH354A - Data Analysis I from Fall 2024, taught by Dr. William Cipolli.'
+images: ['/static/images/class/how-to-choose-graph.svg']
+---
+
+**Instructor**: Dr. William Cipolli  
+**Note Taken by**: Daniel Jeong  
+**Date**: From 2024-08-29 to 2024-12-20
+
+> In God we trust. All others must bring data.
+>
+> - W. Edwards Deming
+
+### What is a Distribution?
+
+Before we dive into probability distributions, let's clarify what a "distribution" is. In simple terms, it's about **what happens and how often** it occurs.
+
+For example, if 50% of the students in a MATH354 class got A+, and the other 50% got an A, that's a **grade distribution**.
+It tells us how often certain grades appeared. We know that 50% of the time, an A+ "happened."
+
+### How is Probability Different?
+
+Probability, on the other hand, focuses on **a single event**. For instance, the probability of randomly selecting a student who got an A+ would be 50%. It's just about that **one outcome**.
+
+A **distribution** gives you the whole picture—it describes **all possible outcomes** and their probabilities. So, for grades ranging from F- to A+, each grade would have some probability between 0% and 100%, giving you a full view of all possible events.
+
+![A+](https://media.giphy.com/media/xT5LMTff7lN1riPLXi/giphy.gif?cid=ecf05e47ob4h2cq33kwvfdkvsvyms1f6o92je2uo6ntuub1g&ep=v1_gifs_search&rid=giphy.gif&ct=g)
+
+---
+
+### 1. Cumulative Distribution Function (CDF) - What's That?
+
+The **Cumulative Distribution Function (CDF)** is just a fancy way of saying: "What's the probability that a random variable is **less than or equal to** a certain value?"
+
+Let's break it down super easy:
+
+Imagine you're tracking test scores in a class, where students scored anywhere from 0 to 100. The CDF tells you the probability that a random student scored **up to** a certain number.
+
+For example:
+
+- If you want to know the probability that someone scored 70 or less, the CDF gives you that exact number.
+- If you want the probability that a score was 90 or lower, the CDF has your back for that too!
+
+Basically, the CDF gives you a running total of probabilities for all the scores **up to** whatever number you're interested in.
+
+### Why is it Useful?
+
+Unlike just looking at the probability of a single, specific score (like someone scoring exactly 70), the CDF shows you the bigger picture of **everything below or equal to 70**.
+
+Here's how it helps:
+
+- **Summing probabilities**: It's like asking, "What's the overall chance that this thing happens **up to this point?**" It's cumulative, meaning it's not just isolated to one event—it's stacking up chances as you go.
+- **Cutoff comfort**: Want to know the chance of passing a test (like scoring at least 50)? The CDF tells you how much of the total probability falls below or at 50. It's useful for seeing where you stand in relation to a target.
+
+In short, the CDF shows you the total probability of being at or below a certain value, giving you a better understanding of the whole situation.
+
+![IQ Percentile Humor](https://preview.redd.it/dont-have-the-heart-to-tell-her-shes-reading-the-results-v0-bn85l4836lh81.jpg?width=640&crop=smart&auto=webp&s=215a18c0f4d7eafc59b069068a1bd1dd19f3fd50)
+
+---
+
+### 2. Inverse Cumulative Distribution Function (Inverse CDF) - What's That?
+
+The **Inverse Cumulative Distribution Function** (often called the **Quantile Function**) is like flipping the CDF on its head. Instead of asking, “What's the probability of being less than or equal to a value?”, you ask, **“At what value does this probability happen?”**
+
+In simpler terms, it tells you the value that corresponds to a specific probability! So if you want to know the score that **cuts off the top 10%**, you use the inverse CDF.
+
+### How Does It Work?
+
+Let's keep using test scores as an example. Imagine you've got a class where students scored between 0 and 100. Normally, with the CDF, you'd get something like:
+
+- "The probability of scoring less than or equal to 80 is 85%."
+
+With the **inverse CDF**, we flip the question around:
+
+- "What score do you need to get if you want to be in the **85th percentile**?"
+
+The answer would be: you need to score 80.
+
+So basically, instead of starting with a score and finding its probability, you start with a probability and find the score it matches. It's like working backwards!
+
+### Why is it Useful?
+
+- **Percentiles**: If you're ever asked for the **90th percentile** in exams or data, the inverse CDF is what gives you the score at that 90% mark.
+- **Thresholds**: Need to know a cut-off value for the top 5% or bottom 2%? Yep, you use the inverse CDF for that.
+
+So, if the CDF is about figuring out how much probability is up to a certain point, the **Inverse CDF** helps you find the point (or value) associated with a specific probability.
+
+It's like saying, “Okay, I want to be in the top 10%. What score do I need?” And the **inverse CDF** gets you that answer.
+
+![Quantile Meme](https://preview.redd.it/what-is-a-quartile-anyway-v0-4a44ayt9zm0d1.jpeg?width=640&crop=smart&auto=webp&s=2226083ac137bc6e0272a1c0dad6ed75d3b68718)
+
+---
+
+### 3. Probability Mass Function (PMF) — What's That?
+
+The **Probability Mass Function (PMF)** is used for **discrete** random variables (think of things that can only take specific values, like rolling dice). It gives the probability of each possible outcome.
+
+In simple terms, it's like a menu showing you **what can happen and how likely it is**. The PMF tells you the probability of each exact value.
+
+### How Does It Work?
+
+Let's stick with a simple example: rolling a fair six-sided die. The possible outcomes are 1, 2, 3, 4, 5, or 6. The PMF would tell you:
+
+- The probability of rolling a 1 is 1/6.
+- The probability of rolling a 2 is also 1/6.
+- …and so on for each number.
+
+The key idea is that the **PMF assigns a probability** to each possible value (in this case, the die outcomes). For a discrete random variable, the total of all those probabilities adds up to 1 because something's **got to** happen!
+
+For example:
+
+- PMF(1) = 1/6
+- PMF(2) = 1/6
+- ...
+- PMF(6) = 1/6  
+  And the sum of all those probabilities = 1.
+
+### Why is it Useful?
+
+The PMF is super helpful when you want to know the **exact probability** of an event happening for something with discrete outcomes.
+
+For things like:
+
+- **Rolling dice**: What's the chance of rolling a 4?
+- **Flipping coins**: What's the probability of getting exactly 2 heads out of 3 flips?
+
+In the coin example, the PMF answers questions like:
+
+- Probability of getting 2 heads = 3/8
+- Probability of getting 1 head = 3/8
+- And it goes on...
+
+Basically, if you want to know the chance of a **specific outcome** for something that can only have certain values (like dice rolls or coin flips), the **PMF** is how you find out! It's your handy guide to understanding the likelihood of each possible outcome.
+
+![Dice Gif](https://media.giphy.com/media/gzsSUJEJQntC4lUHkq/giphy.gif?cid=790b76112biwtvwy20aatsb7pwgsw1hmek6tw5uboc2o3snr&ep=v1_gifs_search&rid=giphy.gif&ct=g)
+
+---
+
+### 4. Probability Density Function (PDF) — What's That?
+
+The **Probability Density Function (PDF)** is for **continuous** random variables, which means it deals with variables that can take on an infinite number of values within a range (think of measurements like height, weight, or time).
+
+The PDF itself doesn't give the probability of a specific exact value (because the probability at a single point is basically zero for continuous things), but it tells you the **relative likelihood** of the random variable taking values in a small interval.
+
+### How Does It Work?
+
+Imagine you're looking at the distribution of people's heights. The PDF tells you how **densely packed** the probabilities are at different heights. In other words, it shows you where the values are more likely to be "concentrated."
+
+- If the PDF curve is high around 170 cm, that means people are more likely to be around 170 cm tall.
+- If the PDF is low around 200 cm, that means there's a lower chance of people being that height.
+
+Important: The total area under the PDF curve equals **1**, because probabilities add up to 100%. But to find the actual probability of someone's height falling within a range (e.g., between 160 cm and 180 cm), you'd look at the **area under the curve** between those two points.
+
+### Why Can't We Say the Probability of One Exact Value?
+
+With continuous variables, the probability of any **single** value is zero because there are infinitely many possible values. For example, the probability of being **exactly** 174.567234... cm tall is so small that it's basically nothing. But the PDF tells us how the probabilities are spread out over a range, which we can work with.
+
+### Why is it Useful?
+
+- **Ranges Matter**: Want to know the probability that a person's height is between 160 cm and 180 cm? The PDF helps you find that probability by looking at the area under the curve for that range.
+- **Relative Likelihood**: The PDF lets you see where values are more common, like which range of heights or other continuous variables are more likely.
+
+### Example: Bell Curve
+
+Think of the classic **bell curve** (normal distribution). The PDF tells us:
+
+- Heights around the middle of the curve (closer to the average) are much **more likely**.
+- Heights at the far ends are much **less likely**.
+
+But again, it's about ranges. You can't say, "the probability of exactly 175 cm is X," but you **can** say, “the probability of being between 170 cm and 180 cm is X%.”
+
+The **PDF** is your go-to for visualizing and calculating probabilities over ranges, giving you insight into where the values for a continuous variable are more or less likely to fall!
+
+![Bell Curve Humor](https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F05d988ab-bf1a-4b58-95ee-68307b2c42fb_1600x1060.jpeg)
+
+---
+
+### 5. Point Estimation / Point Estimator / Point Estimate — What's That?
+
+These three terms are all related, but let's break them down one by one!
+
+#### Point Estimation
+
+**Point Estimation** is the **process** of finding a single value (or "point") to represent some unknown population parameter (like the mean or standard deviation) based on sample data. Instead of giving a range of possible values, we just choose one "best guess."
+
+#### Point Estimator
+
+A **Point Estimator** is the **formula or method** used to calculate that single best guess from your data. Think of it as the tool or recipe that helps take your sample data and turn it into one summary value. For example:
+
+- The sample mean (**x̄**) is a **point estimator** for the population mean.
+- The sample proportion (**p̂**) is a **point estimator** for the population proportion.
+
+#### Point Estimate
+
+The **Point Estimate** is the actual **value** you get after you've applied the point estimator. It's the specific number—the result or outcome of your calculation. So, if you use your point estimator (like the formula for the mean) on your data and calculate that the average height in your sample is 170 cm, **170 cm** is your **point estimate**.
+
+### How Does It Work?
+
+Let's say you're trying to figure out the average height of students at your school, but you can't measure everyone. Instead, you measure **a subset (sample)** of students and use **point estimation**.
+
+1. You use the **sample mean** formula, which is your **point estimator**.
+2. After calculating, you find that the average height in your sample is **170 cm**—this is your **point estimate** for the average height of all students in the school.
+
+Notice the flow:
+
+- **Point Estimation** is the process of finding a "best guess."
+- The **Point Estimator** is the tool (like the mean formula).
+- The **Point Estimate** is the result itself (like 170 cm).
+
+### Why is it Useful?
+
+- **Quick Guess**: Point estimation gives you a quick, single-value guess for an unknown parameter. It's simple and efficient.
+- **Decision-Making**: Sometimes you need just **one number** to make decisions, and a point estimate delivers that.
+
+However, point estimates don't tell you about uncertainty or how accurate the estimate is, which is why methods like **confidence intervals** (that give a range) often complement point estimates. But when you just need a quick "best guess" from your sample, point estimation gets the job done!
+
+In summary:
+
+- **Point estimator**: the formula/tool.
+- **Point estimate**: the result/value.
+- **Point estimation**: the process of calculating it.
+
+![Math Humor](https://media.giphy.com/media/BmmfETghGOPrW/giphy.gif?cid=790b7611drygx1sl9ftc2kz6rrtek5vjnxxnitfh2e3i0hhd&ep=v1_gifs_search&rid=giphy.gif&ct=g)
+
+---
+
+### Theorem: Weak Law of Large Numbers — What's That?
+
+The **Weak Law of Large Numbers (WLLN)** is a super simple but powerful idea in probability. It basically says:
+
+**The more data you collect (or the more times you run an experiment), the closer you'll get to the “true” average (or mean) of whatever you're studying.**
+
+In other words, as you gather more and more data, your sample mean will get closer and closer to the actual population mean. This doesn't happen immediately—it's all about **large numbers**—but the more you repeat something, the better your estimate of the average gets.
+
+### How Does It Work?
+
+Let's break it down with a coin flip:
+
+- Imagine you're flipping a fair coin. We know that the **true probability** of landing heads is 50%, or 0.5.
+- At first, things might seem totally random. You flip the coin 10 times, maybe you get 7 heads and 3 tails. That's 70% heads—**not** close to 50%, right?
+- But if you keep flipping the coin—like 100 times or 1,000 times—the **average number of heads** will get closer and closer to 50%.
+
+The **Weak Law of Large Numbers** says that if you flip the coin enough times, your calculated proportion of heads will converge on the true probability (0.5, in this case). The key idea is that big numbers—lots of data—make averages more accurate **over time**.
+
+### Why is It Important?
+
+1. **Reliability of Averages**: It tells us that we can trust our averages (like the **sample mean**) **more** as we collect **more data**. The company doing customer surveys or the scientist running experiments can feel confident that as their numbers grow, their sample averages will start to line up with the real averages.
+2. **Foundation of Probabilities**: It's one of the core ideas behind why probabilities work in real life. It helps explain why if you flip a coin a million times, you expect about half to be heads.
+
+### A Little More Formal (Just Briefly)
+
+The WLLN says that for a sufficiently large sample size **n**, the probability that the sample mean will be close to the population mean **approaches 1** (or in more casual terms, becomes nearly certain). But that's the technical language boiled down. For non-math folks, it just means as you go bigger (collect more data), you get closer to the real answer.
+
+### Quick Recap:
+
+1. The **Weak Law of Large Numbers** says that as you collect more and more data, your sample average will get closer to the true population average.
+2. The key is that it works with **large numbers**—the more data you have, the closer your sample average gets to being correct.
+
+So, it's like saying: "Keep running those experiments! Eventually, the results will start to match reality." Whether you're flipping coins or measuring heights, the WLLN gives comfort in knowing that more data = better accuracy over time!
+
+![Rookie Number Humor](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdmdnNHRhcjRlZGtlenVmZXpjbWpvN3FlcmU4cWhvOW5vNXUzbGMyZiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/YmQLj2KxaNz58g7Ofg/giphy.gif)
+
+---
+
+### 6. Method of Moments — What's That?
+
+The **Method of Moments** is a technique used to estimate population parameters (like the mean or variance) from sample data. It works by matching the **moments** (explained below) of the sample to those of the theoretical population distribution. Once you set them equal, you can solve for the unknown parameters you want to estimate.
+
+In simpler terms, the Method of Moments helps you figure out population characteristics by making sure the "sample moments" align with the "population moments."
+
+### How Does It Work?
+
+Let's break it down:
+
+1. **Moment**: In statistics, a **moment** is basically a measurement of the shape or "features" of a distribution. The **first moment** is the mean, the **second moment** is related to the variance, and so on.
+2. **Sample Moments**: These are moments calculated from your sample data. For instance, the mean of your sample is the **first sample moment**.
+
+3. **Population Moments**: These are theoretical moments based on the distribution of the entire population. We usually don't know these exact values (that's what we're trying to estimate).
+
+The **Method of Moments** works by:
+
+- Taking the sample moments (that you can calculate from data),
+- Equating them to the population moments (which usually depend on some unknown parameters),
+- And then solving to estimate those parameters.
+
+### Example — Estimating the Mean and Variance
+
+Let's say we're trying to model a population based on a sample. We want to estimate typical parameters, like the mean (**μ**) and variance (**σ²**), using the Method of Moments.
+
+Here's the step-by-step:
+
+- **Step 1**: Calculate the first sample moment (the mean) from your data. Let's call it **x̄**.
+- **Step 2**: Set this equal to the **first population moment** (which is **μ**, the thing we're trying to estimate).
+
+  So we get: **μ = x̄** (and now we have an estimate for the population mean).
+
+- **Step 3**: Calculate the second sample moment (related to variance) from your data.
+- **Step 4**: Set that equal to the **second population moment**, which involves both the mean (μ) and variance (σ²).
+
+  Solve for **σ²** to get an estimate for the population variance.
+
+### Why is it Useful?
+
+- **Simplicity**: The Method of Moments often gives you estimates with fairly straightforward math. You calculate moments from your sample, plug them in, and solve.
+- **Flexibility**: It works for different distributions (normal, binomial, etc.) and for estimating multiple parameters (mean, variance, etc.).
+
+However, the Method of Moments doesn't always give the most efficient or precise estimates compared to other methods like **Maximum Likelihood Estimation (MLE)**. But for many problems, it offers a simple and intuitive way to find estimates without needing to dive deep into complex likelihood functions.
+
+### Quick Recap:
+
+- **Moment**: A feature/measurement of the data (e.g., mean, variance).
+- **Method of Moments**: A technique that uses moments from your data to estimate population parameters by matching them with theoretical moments.
+
+![Gaussian Distribution Humor](https://ih1.redbubble.net/image.601594614.3099/st,small,507x507-pad,600x600,f8f8f8.u2.jpg)
+
+---
+
+### 7. Maximum Likelihood Estimation (MLE) — What's That?
+
+**Maximum Likelihood Estimation (MLE)** is a method used to estimate the parameters of a statistical model (like the mean or variance) by **maximizing the likelihood** function. In simple terms, it finds the parameter values that make the observed data **most likely** to have happened.
+
+Think of MLE as trying to find the “best guess” for the unknown parameters by saying: "If I pick this value, how likely is it that the data I collected came from this distribution?"
+
+### How Does It Work?
+
+Here's the step-by-step breakdown:
+
+1. **Start with Data**: Suppose you have a set of sample data, and you believe it follows a certain distribution (like normal, binomial, or Poisson). The distribution depends on some unknown parameter(s), which could be the mean, variance, probability, etc.
+
+2. **Write the Likelihood Function**: The **likelihood function** measures how likely it is to observe your actual data, given particular parameter values. It's based on the probability function of the distribution you're assuming.
+
+3. **Maximize the Likelihood**: MLE works by searching for the parameter values that **maximize** the likelihood of observing the data you have. In other words, it "tunes" the parameters to give you the highest likelihood of seeing the data pattern that you actually got.
+
+4. **Solve for Parameters**: Once you've written the likelihood function, you mathematically maximize it (sometimes by taking the derivative and setting it equal to zero). The result will be your **maximum likelihood estimates** for the parameters.
+
+### Example — Coin Flip
+
+Let's say you're flipping a biased coin, and you want to estimate the probability **p** of landing heads. You flip the coin 10 times and observe 7 heads and 3 tails.
+
+1. **Write the Likelihood**: The likelihood is the probability of seeing 7 heads out of 10 flips, which is represented by the binomial distribution function:
+
+$$
+L(p) = p^7 (1 - p)^3
+$$
+
+(This function gives you the probability of getting exactly 7 heads, given a probability **p**.)
+
+2. **Maximize the Likelihood**: To find the best estimate of **p**, we maximize this likelihood. In this case, you can take the derivative of **L(p)** with respect to **p**, set it equal to zero, and solve for **p**.
+
+3. **Find the Estimate**: For this example, it's pretty clear that the **maximum likelihood estimate (MLE) for p** would be 7/10 or **0.7**. This makes sense because 70% heads is what we actually observed—meaning **p = 0.7** makes our data as likely as possible.
+
+### Why is MLE Useful?
+
+- **Best Fit**: MLE finds the parameters that make the observed data **most likely**, making it one of the most popular methods for parameter estimation.
+
+- **Flexibility**: It works for many types of distributions (normal, binomial, Poisson, etc.) and for estimating many types of parameters (mean, variance, probability, etc.).
+
+- **Theoretical Foundation**: MLE is often preferred because, under certain conditions, it gives **efficient** and **unbiased** estimates, meaning they have good statistical properties as the sample size increases.
+
+### Quick Comparison with Method of Moments
+
+- **Method of Moments**: Matches sample moments (like the sample mean) with population moments to estimate parameters.
+- **MLE**: Finds parameter values that maximize the likelihood of observing the actual data you have.
+
+While both methods are used to estimate parameters, **MLE** usually provides more accurate estimates, especially as the sample size gets larger, but it can also involve more complex calculations.
+
+### Quick Recap:
+
+- **Maximum Likelihood Estimation (MLE)**: A method to estimate parameters by finding the values that maximize the likelihood of your data.
+- **Likelihood function**: A function that measures how likely your data is, given certain parameter values.
+- **Maximization**: The process of tweaking parameters to make the observed data as probable as possible.
+
+In short: MLE helps you find the most "plausible" parameters for your data by maximizing the chances that the data you observed came from the statistical model you're assuming. It's like determining the best fit for your data based on what's most likely to be true!
+
+![Change Humor](https://media.giphy.com/media/xUNda323MjcKC48sMM/giphy.gif?cid=790b76119481p684y7h10104rstdx0488lokk9mma7efah2f&ep=v1_gifs_search&rid=giphy.gif&ct=g)
+
+---
+
+### 8. Extended Normal Distribution — What's That?
+
+The **Extended Normal Distribution** is like the regular normal distribution (think of the classic bell curve), but with extra flexibility. Instead of just having the basic shape that's perfectly symmetrical and nicely curved, the extended version lets you tweak things a bit to fit more real-world data that might not fall into a perfect bell shape.
+
+In the normal distribution, you only have two parameters to play with:
+
+- **Mean (μ)**: This tells you where the center (the peak) of the curve is.
+- **Standard Deviation (σ)**: This controls how spread out or wide the curve is.
+
+But the **Extended Normal** adds more control, letting you:
+
+- Adjust the **skewness**: This makes the curve lean more to the left or right.
+- Adjust the **kurtosis**: This lets you make the peak taller (sharper) or flatter than normal.
+
+### How Does It Work?
+
+The **extended normal** still has the same basic idea as the regular normal—you model the probability of different outcomes—but now it allows the curve to stretch or lean based on extra parameters.
+
+For example:
+
+- If your data is **skewed** (more values to one side), the regular normal curve wouldn't fit well. But the extended version can **tilt** the curve to fit better.
+- If your data has **more extreme events** (values really far from the mean), you can **stretch** the tails of the distribution to account for that.
+
+In short, the **extended normal** gives you more tools to fit data that doesn't quite behave like a normal distribution.
+
+### Why Is It Important?
+
+The standard normal distribution works great in many cases, but in the real world, data doesn't always behave perfectly:
+
+- **Skewed Data**: Think about people's incomes—most people earn closer to a certain amount, but a small number of people earn way more than the average (creating skewed data). The Extended Normal can model this.
+- **Fat Tails**: In finance, stock returns sometimes have extreme fluctuations more often than the normal distribution predicts. The Extended Normal can handle these **fatter tails**, where extreme data points happen more often.
+
+### Quick Recap:
+
+1. The **Extended Normal Distribution** is a more flexible version of the standard normal distribution.
+2. It allows you to change the **skewness** (leaning to one side) and **kurtosis** (making the peak sharper or flatter).
+3. It's useful when your data doesn't fit perfectly into that nice, symmetric bell curve.
+
+![Paranormal Distribution Humor](https://i0.wp.com/www.rebresearch.com/blog/wp-content/uploads/2013/11/paranormal-distribution.jpg)
+
+---
+
+### 9. Poisson Distribution — What's That?
+
+The **Poisson Distribution** is a probability distribution that answers a super useful question:
+
+**How likely is it that a certain number of rare events happen in a fixed period or space?**
+
+It's most often used when you're looking at something that happens occasionally, like:
+
+- How many customers will arrive at a coffee shop in an hour?
+- How many cars will pass through a toll booth in a minute?
+- How many emails will you get in a day?
+
+The key is that these events need to happen **randomly** and **independently** (i.e., one happening doesn't affect the others), and you're counting how many times they occur in a **fixed interval**, like time, space, or area.
+
+### How Does It Work?
+
+The Poisson Distribution is based on a parameter called **λ (lambda)**, which represents the **average number of times** the event happens in a given period or space.
+
+For example:
+
+- If on average, 4 customers visit a shop every hour (**λ = 4**), then the Poisson distribution can tell us the probability of seeing **0**, **1**, **2**, or **more** customers in an hour.
+
+For any specific number of events **k** (like, "what's the probability exactly 3 customers show up?"), the Poisson Distribution formula calculates the exact probability.
+
+The formula looks like this:
+
+$$
+
+P(k \text{ events}) = \frac{e^{-λ} \cdot λ^k}{k!}
+
+
+$$
+
+Don't worry if that looks scary! Here's the basic idea:
+
+- **λ** tells you the average rate of events (for example, 4 customers per hour).
+- **k** is the number of events you're interested in (like exactly 3 customers).
+- The formula calculates the chances of those events happening.
+
+### Example: Coffee Shop
+
+Let's say a coffee shop gets **5 customers per hour on average**. So, **λ = 5**.
+
+You can answer questions like:
+
+- **What's the probability the shop will get exactly 3 customers in the next hour?**
+
+You'd plug **λ = 5** and **k = 3** (since you want exactly 3 customers) into the formula and calculate that **probability**.
+
+- **What's the probability no customers show up in an hour?**
+
+Again, use the same idea, but now **k = 0** (for zero customers), and the formula will tell you how likely that outcome is.
+
+### When Do You Use the Poisson Distribution?
+
+The Poisson Distribution is great for situations where events are:
+
+- **Independent**: One event happening doesn't affect other events.
+- **Random**: The events occur at random times/places.
+- **Rare but Possible**: The average number of events is relatively small compared to the number of possible opportunities (like arriving customers, calls, or defects).
+
+Some common examples:
+
+- **Calls at a call center**: How many calls will an agent get in an hour?
+- **Number of typos per page** in a manuscript.
+- **Accidents at an intersection**: How many car accidents will happen at a busy intersection in a month?
+
+### Why is it Useful?
+
+- **Real-World Applications**: It's incredibly helpful for modeling things like arrivals, occurrences of rare events, or random events happening over time.
+- **Easy Calculations**: Once you understand **λ** (the average rate), the distribution gives you a simple way to calculate probabilities for any given number of events.
+
+### Quick Recap:
+
+1. The **Poisson Distribution** models the chances of a certain number of random, rare events happening in a fixed period (like calls per hour or accidents per day).
+
+2. The key parameter is **λ (lambda)**, which is the **average rate** of events per time unit or space.
+
+3. It's super useful in real life when you're dealing with **random arrivals**, **occurrences** of events, or isolated incidents (like how many emails you'll receive in an hour).
+
+![Poisson Distribution Humor](https://imgs.xkcd.com/comics/poisson.jpg)
+
+---
+
+### 10. Zero-Inflated Poisson Distribution — What's That?
+
+The **Zero-Inflated Poisson (ZIP) Distribution** is a special version of the regular Poisson distribution that's used when your data has **way more zeros** than you'd expect. It helps model situations where non-events (aka "zeros") happen more often than just random chance would suggest.
+
+Basically, it's for when you see _lots_ of nothing happening!
+
+In a normal Poisson distribution, you calculate the probability of rare events happening in a given time or space (like customers visiting a store, or defects in a product). But sometimes, the number of times **nothing happens** (like no customers show up) is much higher than expected — that's where **zero-inflation** comes in.
+
+### Why Does This Happen?
+
+Your data might have an excess of zeros for two reasons:
+
+1. **True Zeros**: This comes from a situation where the event never occurred. For example, if nobody enters a store during late hours, you get a lot of “zero customers.”
+2. **Possible Events, but Randomly Zeros**: Maybe the event could have occurred, but it didn't, just due to randomness. This is what the regular Poisson distribution would predict.
+
+The **Zero-Inflated Poisson** accounts for both types of zeros: the ones that come from a "never happens" scenario and the ones that come from randomness.
+
+### How Does It Work?
+
+The ZIP model basically **mixes** two processes:
+
+- **Process 1: True Zeros** — Some of the zeros come from a situation where the event is impossible to happen (like a store being closed, so no customers can come in).
+- **Process 2: Poisson Distribution** — For the rest of the cases, the regular Poisson distribution models the number of events (like customers arriving on average).
+
+The model basically asks: Is this a “never happens” zero, or is it just a random case of nobody showing up?
+
+### Example: Store Visits
+
+Imagine you're tracking customer visits to a shop. On some days, the shop is closed (so you'll definitely get zero customers), and on open days, the visits follow the usual Poisson process (where, say, 10 customers show up on average over an hour).
+
+In a regular Poisson model, those true zeros (from the store being closed) might throw off your calculations, because the model isn't expecting that many zeroes. The **Zero-Inflated Poisson** fixes this by separating the true zeros from the Poisson ones, giving you a better fit for the situation.
+
+### Why Is It Useful?
+
+The ZIP model is super helpful when regular Poisson just won't cut it because of all those extra zeros. It's more **realistic** in situations like:
+
+- **Customer arrivals** for businesses that sometimes shut down.
+- **Defects in manufacturing**, where most products are fine, but a few might be defective.
+- **Medical data**: If you're tracking number of doctor visits, but many people never go to the doctor.
+
+### Quick Recap:
+
+1. The **Zero-Inflated Poisson (ZIP)** distribution is used when your data has **more zeros** than the usual Poisson distribution can handle.
+2. It combines two processes:
+
+   - Zeros that arise because the event literally couldn't happen (true zeros).
+   - Zeros (and other counts) that come from the regular Poisson distribution.
+
+3. It's great for situations like customer visits, defect rates, or healthcare systems where large amounts of "nothing happening" are common.
+
+In short: The **Zero-Inflated Poisson** helps you deal with data that's full of zeros by giving you a way to separate the zeros from two different causes—making your model more accurate and realistic when things don't happen as often as they could!
+
+![Zero Inflated Poisson Humor](https://media.giphy.com/media/9hSsOshicxQHe/giphy.gif?cid=790b7611w2cfw34rsk9q3dvur3c8jxq665b2wyzby8wl12rb&ep=v1_gifs_search&rid=giphy.gif&ct=g)
+
+---
+
+### 11. Probabilities of Interest, Expected Values, and Variances — What's That?
+
+### 11-1. Probabilities of Interest
+
+So, let's start with **probabilities of interest**. This is just a fancy way of saying, "What are you curious about happening?" It's all about answering questions like:
+
+- What's the probability you get heads when flipping a coin? (Answer: 50% or 0.5).
+- What's the probability it rains tomorrow? (Depends on the weather data—let's say 30% or 0.3).
+
+In math terms, **probability** is a number between **0 and 1** that tells you the likelihood an event will happen:
+
+- **0** means there's absolutely no chance.
+- **1** means it's 100% certain.
+
+If we're talking dice, the probability of rolling a **3** on a fair six-sided die is:
+
+$$
+
+P(3) = \frac{1}{6}
+
+
+$$
+
+In daily life, **probabilities of interest** are everywhere, from predicting sports outcomes to estimating whether you'll pass your next exam after last-minute studying.
+
+### 11-2. Expected Values
+
+Alright, now let's move on to **expected values**, which are SUPER important in probability. The expected value (often written as **E(X)**) answers the question: "What's the average outcome you'd expect if you could repeat an experiment or event over and over?"
+
+Take a coin flip, for instance. If you flip a coin many, many times, half the time you'll get heads, half the time tails. The **expected value** of heads is:
+
+$$
+
+E(\text{Heads}) = 0.5
+
+
+$$
+
+For something like rolling a six-sided die, the **expected value** is the **average** number you'd get if you rolled it an infinite number of times. The formula to calculate an expected value is:
+
+$$
+
+E(X) = \sum (x \cdot P(x))
+
+
+$$
+
+Here's how it works for a die:
+
+- You add up each possible outcome (like rolling a 1, 2, 3, etc.), multiplied by its probability (each is **1/6**).
+
+So for a six-sided die, the **expected value** is:
+
+$$
+
+E(\text{die}) = \left( 1 \cdot \frac{1}{6} \right) + \left( 2 \cdot \frac{1}{6} \right) + \dots + \left( 6 \cdot \frac{1}{6} \right) = 3.5
+
+
+$$
+
+"Wait, 3.5?! There's no 3.5 on a die!" True, but that's the _long-term average_ if you keep rolling. Sometimes you'll roll a 1, sometimes a 6, and it all averages out to 3.5 in the long run.
+
+Expected values are key in all sorts of things—like figuring out casino odds, insurance rates, and even how much money you expect to win (or lose) on average when gambling.
+
+### 11-3.Variances
+
+Finally, let's talk **variance**. The variance measures how **spread out** your data or outcomes are. If the outcomes are all pretty close to the expected value, the variance is **small**. If they're all over the place, the variance is **large**.
+
+In math terms, variance is calculated by taking each outcome, seeing how far it is from the expected value, squaring that difference (so everything's positive), and averaging it. The formula looks like this for a variable **X**:
+
+$$
+
+\text{Var}(X) = E((X - E(X))^2)
+
+
+$$
+
+That notation might seem tricky, but all it's doing is saying: "Subtract the expected value from each outcome, square it, and then take the average."
+
+For a fair die, the variance ends up being **2.92**, which tells us how much the roll outcomes bounce around from the expected value of 3.5.
+
+If the variance is small, most of your outcomes are close to the expected value. If it's large, the outcomes can be pretty far off. For example:
+
+- Rolling a fair die has a larger variance than flipping a coin, because with a die, you can roll anything from 1 to 6, while a coin flip gives you just two outcomes (heads or tails).
+
+### Quick Recap:
+
+- **Probabilities of Interest**: The likelihood of something specific happening. (Example: What's the chance of rolling a 4 on a die? **1/6**.)
+- **Expected Value**: The long-term average outcome of an event or experiment. (Example: The expected number from rolling a die is **3.5**.)
+
+- **Variance**: Measures how spread out the outcomes are from the expected value. (Example: The variance for a fair die roll is **2.92**.)
+
+> Life is under no obligation to give us what we expect.
+>
+> - Margaret Mitchell
+
+---
+
+### 12. Assessing Estimators — What's That?
+
+Before we get into all the details like **Uniform(0, b)**, **bias**, **precision**, and **MSE**, let's start with the big picture: **assessing estimators**.
+
+An **estimator** is basically a rule or formula we use to make estimations about unknown values (like population parameters). For example:
+
+- **Sample mean** is an estimator for the **population mean**.
+- **Sample variance** is an estimator for the **population variance**.
+
+But _how good is our estimator_? Assessing an estimator means we're asking questions like:
+
+- **Is it accurate?** (Does it give us close-to-true values?)
+- **Is it consistent?** (Does it get better as we collect more data?)
+- **Is it biased?** (Does it tend to be off in one direction?)
+
+Now let's dive into the details by assessing estimators based on **bias**, **precision**, and **Mean Squared Error (MSE)**.
+
+### 12-1. Bias — How Off Is It?
+
+The **bias** of an estimator tells you whether the estimator constantly **overestimates** or **underestimates** the true value.
+
+- An estimator is **unbiased** if, on average, it produces the correct value. That means that if you repeated the estimation over and over, the average of all your estimates would equal the true population value.
+- If the estimator tends to give values that are always a bit too high or too low, we say it's **biased**.
+
+**Mathematically**, bias is the difference between the **expected value of the estimator** and the **true parameter** you're estimating:
+
+$$
+\text{Bias} = E(\hat{\theta}) - \theta
+$$
+
+where **$E(\hat{\theta})$** is the expected value of the estimator, and **θ** is the true parameter.
+
+#### Example:
+
+Let's say you're trying to estimate the maximum length of fish in a lake using sample data, but you have a sneaky bias in your measuring tool that consistently underestimates the length. Your **bias** would be negative, meaning you're consistently under-guessing.
+
+### 12-2. Precision — How Consistent Is It?
+
+Precision measures how **spread out** your estimates are. If you're constantly bouncing around different estimated values, you have **low precision**. But if your estimates cluster closely together, you have **high precision**.
+
+- If an estimator is **precise**, it means it gives similar values for different samples from the same population.
+
+Precision is related to the **variance (Var)** of the estimator. Lower variance means higher precision, i.e., your estimates are consistently close to each other.
+
+So, **high precision** doesn't necessarily mean the estimator is centered on the correct value (that's the bias part), but it does mean the estimates aren't all over the place.
+
+### 12-3. MSE (Mean Squared Error) — How Good Overall?
+
+The **Mean Squared Error (MSE)** is a key measure that combines both **bias** and **variance** to assess the overall quality of an estimator. It gives you a sense of how off your estimates are on average, taking both bias and precision into account.
+
+**Mathematically:**
+
+$$
+
+\text{MSE} = E[(\hat{\theta} - \theta)^2] = \text{Bias}^2 + \text{Var}(\hat{\theta})
+
+
+$$
+
+The MSE has two parts:
+
+- **Bias²**: Squaring the bias makes sure both positive and negative biases are accounted for (because estimation errors can go both ways!).
+- **Variance**: High variance means your estimates are inconsistent (you get very scattered results when repeating the process).
+
+An estimator with **low MSE** is considered a **good estimator** because it's both **low bias** and **high precision**.
+
+#### Example:
+
+Imagine two archers aiming at a target:
+
+- One consistently hits close but to the left (**biased** but **precise**).
+- The other's shots land all over the target's surface (**low precision**), but sometimes they hit the bullseye.
+
+The archer with the lowest **MSE** will be the one who's closest on average, factoring in both the bias and the spread of the errors.
+
+### 12-4. Uniform(0, b) — A Simple Distribution
+
+A **Uniform(0, b)** distribution is one where the values are evenly spread out between **0** and **b**. This means that every number between 0 and **b** is equally likely.
+
+This distribution often pops up when we're working with problems involving randomness where every outcome in the interval is equally probable.
+
+#### Example:
+
+Imagine spinning a wheel with numbers from 0 to **b** (say **b = 10**). Each number between **0** and **10** has the same chance of being selected. The **likelihood of any number**? Equally probable, as long as it's between 0 and **b**.
+
+Now, when we're assessing an estimator of **b** using sample data drawn from a **Uniform(0, b)** distribution, we need to figure out how well our estimator (like the sample maximum) does in terms of bias, precision, and MSE. Is the sample max a good guess for the true **b**? Or does some bias creep in?
+
+### Putting It All Together!
+
+When you assess an estimator for a distribution like **Uniform(0, b)**:
+
+- **Bias** tells you whether the estimator consistently **over** or **underestimates** the true parameter.
+- **Precision** (related to variance) tells you how **scattered** your estimates are.
+- **MSE** combines both bias and variance to give you an overall score: the lower the MSE, the better the estimator.
+
+For example, if you're estimating **b** in the **Uniform(0, b)** scenario using the **sample maximum**, you might find that this estimator is **biased** because it tends to underestimate **b**. On the flip side, it might have relatively **high precision** because, once you have enough data, it doesn't vary a lot.
+
+### Quick Recap:
+
+1. **Bias**: Does the estimator systematically **over** or **underestimate** the true value? Ideally, it should be **unbiased**.
+2. **Precision**: How **consistent** are the estimates? Measures based on **variance**—lower variance means better consistency.
+3. **MSE**: The overall metric for how **off** the estimator is, combining both **bias** and **variance.**
+
+By looking at bias, precision, and MSE, we get a full picture of how **good** or **bad** an estimator is. It's all about finding that sweet spot: an estimator that's **unbiased**, **precise**, and has a **low MSE**!
+
+![Selection Bias Humor](https://imgs.xkcd.com/comics/selection_bias_2x.png)
+
+---

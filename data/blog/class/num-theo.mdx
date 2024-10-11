@@ -1,0 +1,177 @@
+---
+title: 'Number Theroy & Mathematical Reasoning'
+date: '2024-10-04 14:28:00'
+tags: ['class', 'mathematics', 'notes']
+draft: false
+summary: 'Note from 2024 Fall Number Theory & Mathematical Reasoning Course'
+authors: ['default']
+---
+
+**Instructor**: Dr. Daniel Saracino  
+**Note Taken by**: Daniel Jeong  
+**Date**: From 2024-08-29 to 2024-12-20
+
+**For a printable pdf file, _[please click here](https://raw.githubusercontent.com/danielyj147/num-theory-note/refs/heads/master/note.pdf)_**
+
+## Theorem 1
+
+For all integers $a$, $b$, $c$, $d$:
+
+1. If $a \mid b$ and $b \mid c$, then $a \mid c$.
+2. If $a \mid b$ and $a \mid c$, then for all $x, y \in \mathbb{Z}$, $a \mid (xb + yc)$.
+3. If $a \mid b$ and $c \mid d$, then $ac \mid bd$.
+
+## Theorem 2
+
+Suppose $a$ and $b$ are integers that are not both 0, so that $(a, b)$ exists.  
+Then for every $n \in \mathbb{Z}$,
+
+$$
+(a, b) = (a + nb, b) = (a, b + na)
+$$
+
+## Theorem 3
+
+Every integer $n \ge 2$ is the product of one or more primes.
+
+## Theorem 4
+
+There exist infinitely many primes.
+
+## Theorem 5
+
+For every integer $n \ge 2$, the factorization of $n$ into primes is unique, except for the order in which the factors are written.
+
+## Theorem 6
+
+Suppose $m \in \mathbb{Z}^+$ and $a, b \in \mathbb{Z}$.  
+Then the following are equivalent:
+
+1. $a \equiv b \ (\text{mod}\ m)$, i.e., $m \mid (a - b)$.
+2. $a = b + m\ell$ for some $\ell \in \mathbb{Z}$.
+3. $\overline{a}^m = \overline{b}^m$. [^1]
+
+Thus, the remainders are equal, and any one of (i), (ii), or (iii) proves the other two.
+
+### Theorem 7
+
+Basic Properties of Congruence Modulo $m$:
+
+Suppose $m \in \mathbb{Z}^+$, then the following all hold:
+
+1. **Reflexivity**: For every $a \in \mathbb{Z}$,  
+   $a \equiv a \ (\text{mod}\ m)$.
+
+2. **Symmetry**: For all $a, b \in \mathbb{Z}$,  
+   if $a \equiv b \ (\text{mod}\ m)$, then $b \equiv a \ (\text{mod}\ m)$.
+
+3. **Transitivity**: For all $a, b, c \in \mathbb{Z}$,  
+   if $a \equiv b \ (\text{mod}\ m)$ and $b \equiv c \ (\text{mod}\ m)$, then $a \equiv c \ (\text{mod}\ m)$.
+
+When a relationship between elements of a set $S$ is reflexive, symmetric, and transitive, the relationship is called an _equivalence relation_ on $S$.
+
+Thus, **Theorem 7** says that "congruence modulo $m$" is an equivalence relation on the set $\mathbb{Z}$.
+
+### Theorem 8
+
+Suppose $m \in \mathbb{Z}^+$, and let $a, b, c, d \in \mathbb{Z}$.  
+Then, if $a \equiv b \ (\text{mod}\ m)$ and $c \equiv d \ (\text{mod}\ m)$, we have:
+
+1. $a + c \equiv b + d \ (\text{mod}\ m)$
+2. $ac \equiv bd \ (\text{mod}\ m)$
+
+---
+
+## Lemma: Bezout's Lemma
+
+If $m$ and $n$ are integers that are not both zero, such that $(m, n)$ exists,  
+then there exist $x, y \in \mathbb{Z}$ such that $xm + yn = (m, n)$.
+
+## Lemma: Euclid's Lemma
+
+Suppose $a$, $b$, $c$ are integers such that $a \mid bc$ and $(a, b) = 1$.  
+Then $a \mid c$.
+
+---
+
+## Definition: Coprime
+
+We say integers $a$ and $b$ are relatively prime (or "coprime") if $(a, b) = 1$.
+
+## Definition: Prime
+
+An integer $p$ is prime if $p > 1$ and the only positive integers that divide $p$ are $1$ and $p$.
+
+---
+
+## Corollary 1
+
+Every integer $n \ge 2$ has a unique representation in the form:
+
+$$
+n = p_{1}^{e_{1}} \times p_{2}^{e_{2}} \times p_{3}^{e_{3}} \times \cdots \times p_{k}^{e_{k}}
+$$
+
+where the $p$'s are distinct primes and each $e_i \ge 1$.  
+This is called the prime-power decomposition of $n$.
+
+## Corollary 2
+
+Suppose $n \ge 2$ and the prime-power decomposition (ppd) of $n$ is:
+
+$$
+n = p_{1}^{e_{1}} \times p_{2}^{e_{2}} \times p_{3}^{e_{3}} \times \cdots \times p_{k}^{e_{k}}
+$$
+
+Then if $m$ is any positive integer that divides $n$,
+
+$$
+m = p_{1}^{f_{1}} \times p_{2}^{f_{2}} \times p_{3}^{f_{3}} \times \cdots \times p_{k}^{f_{k}}
+$$
+
+for some integers $f_1, \cdots, f_k$ such that $0 \le f_i \le e_i$.
+
+## Corollary 3
+
+If
+
+$$
+n = p_{1}^{c_{1}} \times p_{2}^{c_{2}} \times p_{3}^{c_{3}} \times \cdots \times p_{k}^{c_{k}}
+$$
+
+and
+
+$$
+m = p_{1}^{d_{1}} \times p_{2}^{d_{2}} \times p_{3}^{d_{3}} \times \cdots \times p_{k}^{d_{k}},
+$$
+
+where $p_1, \cdots, p_k$ are distinct primes, and the $c_i$'s and $d_i$'s are nonnegative integers, then
+
+$$
+(m, n) = p_1^{\min(c_1, d_1)} \times p_2^{\min(c_2, d_2)} \times \cdots \times p_k^{\min(c_k, d_k)}
+$$
+
+## Corollary 4
+
+If $n$ is an integer such that $n \ge 2$, then there exists a positive integer $m$ such that $n = m^2$ if and only if all the exponents in the ppd of $n$ are even.
+
+## Corollary 5: Theorem 8-1
+
+Suppose $a \equiv b \ (\text{mod}\ m)$. Then:
+
+- $a \equiv b \ (\text{mod}\ m)$
+- $a^2 \equiv b^2 \ (\text{mod}\ m)$
+- $a^3 \equiv b^3 \ (\text{mod}\ m)$
+- ...
+- $a^k \equiv b^k \ (\text{mod}\ m)$ for every $k \in \mathbb{Z}^+$.
+
+Thus, using part (ii) of Theorem 8 repeatedly, we get:
+
+If $a \equiv b \ (\text{mod}\ m)$, then $a^k \equiv b^k \ (\text{mod}\ m)$ for every $k \in \mathbb{Z}^+$.
+
+## Corollary 6: Theorem 8-2
+
+If $p(x)$ is a polynomial with integer coefficients and $a \equiv b \ (\text{mod}\ m)$,  
+then $p(a) \equiv p(b) \ (\text{mod}\ m)$.
+
+[^1]: Remainder notation created by Dr. Daniel Saracino
