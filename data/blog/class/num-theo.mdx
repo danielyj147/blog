@@ -93,7 +93,17 @@ $$
 a \equiv b \pmod{\frac{m}{(c,m)}}
 $$
 
-## Chinese Remainder Theorem/CRT (Theorem 9)
+## Theorem 9
+
+The congruence $ax \equiv b \pmod{m}$ has solutions if and only if $(a,m) \mid b$.  
+If $(a,m)\mid b$ then there is a unique solutions $x_0$ such that $0 \le x_0 < \frac{m}{(a,m)}$,
+and a complete set of solutions $\pmod{m}$ is
+
+$$
+\{x_0 + \frac{m}{(a,m)}t \mid 0 \le t < (a,m) \}
+$$
+
+## Chinese Remainder Theorem/CRT
 
 Suppose $b_1, \cdots, b_n \in \mathbb{Z}$ and $m_1, \cdots, m_n \in \mathbb{Z}^+$.
 
@@ -113,7 +123,7 @@ then the system has a solution.
 
 And all the solutions are $\equiv \pmod{m_1 * m_2 * \cdots * m_n}$
 
-## Fermat's Little Theorem(1640) (Theorem 10)
+## Fermat's Little Theorem(1640)
 
 Let $p$ be prime then:
 
@@ -121,7 +131,7 @@ Let $p$ be prime then:
 
 2. For all integers $a$, $a^p \equiv a \pmod{p}$
 
-## Wilson's Theorem (Theorem 11)
+## Wilson's Theorem
 
 For every prime $p$, $(p-1)! \equiv -1 \pmod{p}$
 
