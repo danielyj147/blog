@@ -196,6 +196,16 @@ $$
 n=2^{p-1}(2^p-1)
 $$
 
+i.e., all even perfect numbers comes from $n=2^{p-1}(2^p-1)$
+
+## Theorem 13
+
+Suppose $f: S \rightarrow T$ and $g: T \rightarrow U$
+Then:
+
+1. If $f$ and $g$ are both one-to-one, then so is $g \circ f$
+2. If $f$ and $g$ are both onto, then so is $g \circ f$
+
 ---
 
 ## Lemma: Bezout's Lemma
@@ -235,17 +245,28 @@ $$
 
 There are exactly $(a,m)$ incongruent solutions $\mod{m}$
 
+## Lemma:
+
+If $S$ and $T$ are finite sets with the same number of elements, and $f: S \rightarrow T$, then $f$ is
+one-to-one if and only if $f$ is onto.
+
+$$
+|S| = |T|  \& f: S \rightarrow T \Rightarrow \text{onto} \Leftrightarrow \text{one-to-one}
+$$
+
 ---
 
-## Definition: Coprime
+# Definitions
+
+## Coprime
 
 We say integers $a$ and $b$ are relatively prime (or "coprime") if $(a, b) = 1$.
 
-## Definition: Prime
+## Prime
 
 An integer $p$ is prime if $p > 1$ and the only positive integers that divide $p$ are $1$ and $p$.
 
-## Definition: Euler's Function
+## Euler's Function
 
 $$
 \varphi(n) = \text{the number of elements in } \{0, 1, \cdots , n-1 \} \text{ that are coprime to } n
@@ -258,21 +279,91 @@ $$
 \text{Since \{(1-1)\}=\{0\} and 0 is coprime to 1}
 $$
 
-## Definition: Mersenne Numbers
+## Mersenne Numbers
 
 If $n \in \mathbb{Z}^+$, the $n$th Mersenne number is $2^n-1$
 
-## Definition: Proper Factors
+## Proper Factors
 
 If $n \in \mathbb{Z}^+$, the proper factors of $n$ are the positive integers that divide $n$ but are not $n$.
 
-## Definition: Perfect Numbers
+## Perfect Numbers
 
 A positive integer is called perfect if it equals the sum of its proper factors.
 
-## Definition: $\sigma(n)$
+## $\sigma(n)$
 
 If $n \in \mathbb{Z}^+$, then $\sigma(n)$ denotes the sum of all positive integers that divide $n$.
+
+## Function
+
+We say $f$ is a function(or mapping) from $S$ to $T$ and we write
+
+$$
+f: S \rightarrow T
+$$
+
+if $f$ associates to each $s \in S$ a uniquely determined element $f(s) \in T$
+
+## One-to-one: Injection
+
+If $f: S \rightarrow T$ we say $f$ is one-to-one(or "1-1")
+
+1. if whenever $s_1 \neq s_2$ in $S$, then $f(s_1) \neq f(s_2)$ in $T$.
+2. if and only if when $s_1, s_2 \in S$ and $f(s_1) = f(s_2), then s_1=s_2$.
+
+## Onto: Surjection
+
+If $f: S \rightarrow T$ we say $f$ is onto if for every $t \in T$ there exists some $s \in S$ such that $f(s)=t$.
+
+## Bijection
+
+$f$ is a ` bijection` if $f$ is both one-to-ton and onto.
+When a function is a bijection, there is an inverse function and the domain eqals codomain.
+
+## Inverse Function
+
+Suppose $f: S \rightarrow T$ is a bijection.
+Then for each $t \in T$ there is a unique $s \in S$ such that $f(s) = t$.
+So we can define a function $f^{-1}: T \rightarrow S$ by letting.
+
+$$
+f^{-1}(t) = (\text{the unique } s \in S \text{ such that } f(s) = t)
+$$
+
+$f^{-1}$ is the inverse function of $f$.
+
+## Powerset
+
+If $x$ is a set, then the powerset $x$ is the set whose elements are the subsets of $x$.
+We denote the powerset of $x$ by $P(x)$
+
+So $P(x) = \{A | A \le x\}$
+
+e.g., If $x = \{1, 2\}$, $P(x) = \{\emptyset, \{1\}, \{2\}, \{1, 2\} \}$
+
+## Number of Elements in a Finite Set: $|x|$
+
+## Cartesian Product
+
+If $A$ and $B$ are sets, their cartesian product is the set $A \times B = \{(a,b) | a \in A \text{and} b \in B\}$
+
+Note that if $A$ and $B$ are finite sets, then
+
+$$
+|A \times B| = |A| \times |B|
+$$
+
+## Composite Functions
+
+If $f: S \rightarrow T$ and $g: T \rightarrow U$, we define the composite function
+$g \circ f: S \rightarrow U$ by letting
+
+$$
+g \circ f(s)  = g(f(s))
+$$
+
+for all $s \in S$
 
 ---
 
