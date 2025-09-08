@@ -20,6 +20,8 @@ const siteMetadata = {
   linkedin: 'https://www.linkedin.com/in/daniel-jeong-2220111a0/',
   // threads: 'https://www.threads.net',
   // instagram: 'https://www.instagram.com',
+//   medium: 'https://medium.com',
+//   bluesky: 'https://bsky.app/',
   locale: 'en-US',
   // set to true if you want a navbar fixed to the top
   stickyNav: false,
