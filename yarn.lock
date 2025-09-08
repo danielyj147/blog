@@ -4632,7 +4632,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chokidar@npm:^3.5.3, chokidar@npm:^3.6.0":
+"chokidar@npm:^3.5.3":
   version: 3.6.0
   resolution: "chokidar@npm:3.6.0"
   dependencies:
@@ -10293,7 +10293,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rehype-katex@npm:^7.0.1":
+"rehype-katex@npm:^7.0.0":
   version: 7.0.1
   resolution: "rehype-katex@npm:7.0.1"
   dependencies:
