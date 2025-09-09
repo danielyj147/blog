@@ -7,7 +7,7 @@ summary: 'Note from 2025 Fall Abstract Algebra Course'
 authors: ['default']
 ---
 
-**Instructor**: Dr. Gabriel Sosa Castillo
+**Instructor**: Dr. Gabriel Sosa Castillo  
 **Date**: From 2025-08-28 to 2025-12-19
 
 ## Number Theory Review
@@ -16,24 +16,351 @@ authors: ['default']
 
 If $P(n)$ is a sentence dependent on $n$ and
 
-1. $P(n)$ is true for some natural number $a$
-2. $P(k)$ being true implies $P(k+1)$ is also true
+1.  $P(n)$ is true for some natural number $a$.
+2.  $P(k)$ being true implies $P(k+1)$ is also true.
 
-then $P(n)$ is true for all natural numbers greater than or equal to $a$
+then $P(n)$ is true for all natural numbers greater than or equal to $a$.
 
 #### Tip: When proving by induction,
 
-1. Start with a number of base cases(usually one or two).
-2. State induction hypothesis: "Assume $P(k)$ is true for some $k$, so $$k= \vdots $$".
-3. Inductive step: prove diffrent cases.
+1.  Start with a number of base cases (usually one or two).
+2.  State the induction hypothesis: "Assume $P(k)$ is true for some $k$".
+3.  Inductive step: prove the implication for $P(k+1)$.
+
+---
 
 ### Commutative Property
 
+$$a*b = b*a$$
+
 ### Associative Property
+
+$$a*(b*c) = (a*b)*c$$
+
+---
 
 ### The Principle of Strong Mathematical Induction
 
-if P(n) is a sentence dependent on n and
+If $P(n)$ is a sentence dependent on $n$ and
 
-1. $$P(a), P(a+1), ... , P(a+l)$$ are true for some $$a \in \mathbb{N}$$
-2. $$P(m)$$ being true for all m ...
+1.  $P(a), P(a+1), \dots , P(a+l)$ are true for some $a \in \mathbb{N}$ and some $l \in \mathbb{N}$.
+2.  $P(m)$ being true for all $m$ where $a \le m \le k$ implies $P(k+1)$ is true.
+
+then $P(n)$ is true for all $n$ greater than or equal to $a$.
+
+---
+
+#### Example
+
+Let $a_0=1, a_1=4$ and
+
+$$a_{n+1} = 4a_n - 4a_{n-1} \quad \text{for } n \ge 1.$$
+
+Prove that
+
+$$a_n = (n+1)2^n \quad \text{for } n \in \mathbb{N}.$$
+
+#### Proof
+
+1.  **Base Cases**
+
+    We check the first two cases since the recurrence relation depends on the two preceding terms.
+
+    For $n=0$:
+    $$a_0 = 1 \quad \text{and} \quad (0+1)2^0 = 1 \cdot 1 = 1$$
+    The formula holds for $n=0$.
+
+    For $n=1$:
+    $$a_1 = 4 \quad \text{and} \quad (1+1)2^1 = 2 \cdot 2 = 4$$
+    The formula holds for $n=1$.
+
+2.  **Inductive Hypothesis**
+
+    Assume that for all integers $m$ with $0 \le m \le k$ (where $k \ge 1$), the formula is true:
+    $$a_m = (m+1)2^m$$
+
+3.  **Inductive Step**
+
+    We want to prove the formula for $n = k+1$.
+
+    $$
+    \begin{aligned}
+    a_{k+1} &= 4a_k - 4a_{k-1} && \text{(from the definition)} \\
+    &= 4((k+1)2^k) - 4(k \cdot 2^{k-1}) && \text{(by inductive hypothesis)} \\
+    &= (k+1) \cdot 2^2 \cdot 2^k - k \cdot 2^2 \cdot 2^{k-1} \\
+    &= (k+1)2^{k+2} - k \cdot 2^{k+1} \\
+    &= (k+1) \cdot 2 \cdot 2^{k+1} - k \cdot 2^{k+1} \\
+    &= [2(k+1) - k] \cdot 2^{k+1} \\
+    &= (2k + 2 - k) \cdot 2^{k+1} \\
+    &= (k+2) \cdot 2^{k+1} \\
+    &= ((k+1)+1)2^{k+1}
+    \end{aligned}
+    $$
+
+    This is the required formula for $n=k+1$.
+
+By the principle of strong induction, the formula $a_n = (n+1)2^n$ holds for all $n \in \mathbb{N}$.
+
+---
+
+### Induction vs Strong Induction
+
+The main difference between **mathematical induction (weak induction)** and **strong mathematical induction** lies in the inductive hypothesis:
+
+- In **mathematical induction**, the inductive step assumes the statement $P(k)$ is true for a single integer $k$, and then proves $P(k+1)$ based on just that assumption.
+- In **strong mathematical induction**, the inductive step assumes the statement $P(m)$ is true for _all_ integers $m$ from the base case $a$ up to $k$, and then proves $P(k+1)$ based on that stronger assumption.
+
+#### When to use which?
+
+- **Use weak induction** when the truth of $P(k+1)$ depends only on the immediately preceding case $P(k)$.
+- **Use strong induction** when $P(k+1)$ depends on multiple previous cases, such as in proofs involving recurrence relations like the one above.
+
+### Summary:
+
+| Aspect                   | Mathematical Induction                               | Strong Mathematical Induction                   |
+| :----------------------- | :--------------------------------------------------- | :---------------------------------------------- |
+| **Inductive Hypothesis** | Assume $P(k)$ is true                                | Assume $P(m)$ is true for all $a \le m \le k$   |
+| **Use Case**             | Next case depends only on the immediately prior case | Next case depends on any or all prior cases     |
+| **Equivalence**          | Both are logically equivalent in power               | Can simplify proofs that rely on earlier states |
+
+---
+
+### The Well-Ordering Principle
+
+If $S$ is a non-empty subset of $\mathbb{N}$, then $S$ has a least element. That is, there exists an element $m \in S$ such that $m \le s$ for all $s \in S$.
+
+#### Proof by Contradiction
+
+Assume for contradiction that there is a non-empty subset $S \subseteq \mathbb{N}$ with no minimum element.
+
+Let $T = \mathbb{N} \setminus S$. We will prove by strong induction that $T = \mathbb{N}$.
+
+1.  **Base Case** ($n=0$)
+
+    If $0 \in S$, then $0$ would be the minimum element of $S$ (since it's the minimum of $\mathbb{N}$). This contradicts our assumption that $S$ has no minimum. Therefore, $0 \notin S$, which means $0 \in T$.
+
+2.  **Inductive Hypothesis**
+
+    Assume that for some $k \ge 0$, all integers $m$ such that $0 \le m \le k$ are in $T$.
+
+3.  **Inductive Step**
+
+    We want to show that $k+1 \in T$. From the inductive hypothesis, we know that $0, 1, 2, \dots, k$ are not in $S$. If $k+1$ were in $S$, it would be the smallest element of $S$. But $S$ has no minimum, so $k+1$ cannot be in $S$. Thus, $k+1 \in T$.
+
+By the principle of strong mathematical induction, $n \in T$ for all $n \in \mathbb{N}$. This implies $S$ is an empty set, which contradicts our initial assumption that $S$ is non-empty.
+
+Thus, the well-ordering principle is true.
+
+---
+
+### Greatest Common Divisor
+
+Given two integers $a$ and $b$, not both zero, their **greatest common divisor**, denoted $gcd(a,b)$ or $(a,b)$, is a positive integer $d$ satisfying:
+
+1.  $d$ divides $a$ and $d$ divides $b$.
+2.  If any integer $d'$ divides both $a$ and $b$, then $d'$ must also divide $d$.
+
+---
+
+### Theorem 1: Division Algorithm
+
+Given natural numbers $m$ and $n$ with $n \neq 0$,
+there exists natural number $q$ called quotient and $r$ called remainder such that $m=q \cdot n + r$ and $0 \le r \le n$.
+Furthermore $q$ and $r$ are unique.
+
+#### Proof of Theorem 1 using induction
+
+1. Base Cases
+   1. If $m=0$ $m=0*n+0$ and $0 \le r \le 0$
+   1. If $m=1$
+      1. $n=1$: $m=1=1*1+0$ $0 \le r \le 1$
+      1. $n>1$: $m=1=0*n+1$ $0 \le 1 \le n$
+1. Inductive Hypothesis  
+   Assume $P(k)$ is true for some $k$. So
+   $$
+   k = \tilde{q} \cdot n + \tilde{r}
+   $$
+   with $\tilde{q}$ and $\tilde{r}$ as natural numbers and $ 0 \le \tilde{r} \le n$
+1. Inductive Step  
+   We know $k = \tilde{q} \cdot n + \tilde{r}$ with $\tilde{q}$ and $\tilde{r}$ as natural numbers and $0 \le \tilde{r} \le n$  
+   We have two cases
+
+   - Case 1: $0 \le \tilde{r} < n-1$:  
+      $k+1=\tilde{q} \cdot n + \tilde{r} + 1$ and $ 1 \le \tilde{r} +1 < n$. So $q=\tilde{q}$ and $r=\tilde{r}+1$, clearly $q$ and $r$ are both natual numbers and $0 \le r < n$
+   - Case 2: $\tilde{r} = n-1$
+     $$
+     \begin{aligned}
+     k+1 &= \tilde{q} \cdot n + \tilde{r} + 1 \\
+     &= \tilde{q} \cdot n + n - 1 + 1 \\
+     &= (\tilde{q} + 1) \cdot n
+     \end{aligned}
+     $$
+     so
+     $$
+     q = \tilde{q}  + 1 \quad \text{and} \\
+     r = 0
+     $$
+
+Clearly, $q$ and $r$ are natural numbers and $0 \le r < n $.
+This completes inductive steop. So by the principle of mathematical induction, given fixed n, it is true that $m=q \cdot n +r$, for some natural numbers $q$ and $r$, with $0 \le r < n$, for all $m$ natural numbers.
+
+For the uniqueness, assume taht $m = q - n + r$ with $q, q', r, r'$ as natural numbers and $0 \le r, r' < n$
+
+$$
+qn + r = q'n + r'
+$$
+
+Assume without loss of generality $r \le r'$, so
+
+$$
+\begin{aligned}
+r - r' &= q'n - qn \\
+r - r' &= (q'-q)n
+\end{aligned}
+$$
+
+Since $n > r, r' \ge 0$, then $0 \le r-r' < n$
+Also $r-r'$ is a multiple of $n$.
+
+So $r-r'=0, r=r'$ and $0=(q'-q)n. 
+Since $n=0$, the zero product theorem gurantees $q'-q=0$ so $q=q'$.
+
+---
+
+### Theorem 2: Characterization of the GCD / Bezout's Identity
+
+Let $a, b$ be integers, not both zero. The greatest common divisor $gcd(a,b)$ exists and is the smallest positive integer that can be expressed as a linear combination of $a$ and $b$. That is:
+
+$$
+gcd(a,b) = \min
+\begin{cases}
+  ma+nb: m,n \in \mathbb{Z} \\
+  ma+nb > 0
+\end{cases}
+$$
+
+`m, n are integears, not natural numbers!`
+
+#### Proff of Theorem 2
+
+{/* Todo: add themorem 2 proof */}
+
+> Coming soon
+
+### Identity element
+
+$e$ where $e \in S$ and $e \cdot a = a \cdot e = a$
+
+$e$ should **NOT** change depending on $a$
+
+#### Pitfalls
+
+- 0 is not an identity element of subtraction
+  $$0 - a \neq a-0$$
+- 1 is not an identity element of exponentitation
+  $$
+  \begin{aligned}
+  a^1 &= a \\
+  1^a &\neq a
+  \end{aligned}
+  $$
+
+#### Tip
+
+- If you want to check if it's an identity element, check if
+  $$
+  \begin{cases}
+  a * e = a \\
+  e * a = a
+  \end{cases}
+  $$
+
+### Right Identity Element`
+
+$a * e = a$, but $e * a = a$ is not necessarily true.
+
+$$
+a^1 = a \quad \text{for all positive integer } a
+$$
+
+### Inverse Element
+
+If $a, b \in S$ such that $a * b = b * a = e$, then $b$ is inverse of $a$
+
+e.g.,
+
+$$
+\begin{cases}
+a+b=e \quad e=0 \text{ for addition} \\
+b+a=e
+\end{cases}
+$$
+
+### Proving Equality
+
+$$
+\begin{array}{l}
+  1. \ p=q \iff p \le q \text{ and } p \ge q \\
+  2. \ A=B \iff A \subseteq B \text{ and } B \subseteq A \\
+  3. \ a=b \iff a \mid b \text{ and } b \mid a
+\end{array}
+$$
+
+### Group: $(G, *)$
+
+1. Closed
+2. Associative
+3. Identity
+4. Inverse
+
+[+] Commutative: **Abelian Group**
+
+#### Examples:
+
+1. Abelian Groups: $(\mathbb{Z}, +), (\mathbb{Q}, +), (\mathbb{R}, +), (M_{2 \times 3}(\mathbb{R}), +), (P(s), \Delta)$
+1. Non-abelian Groups: $(GC_2(\mathbb{R}, \cdot)), \text{Bijective} (S^S, \circ)$
+1. Non-group: $(\mathbb{N}, +), (M_2(\mathbb{R}), \cdot), (S^S, \circ)$
+
+#### Pitfalls
+
+- $(\mathbb{N}, +)$ is not a group because there is no inverse(negative)
+
+### Right / Left Group
+
+1. Closed
+2. Associative
+3. R/L Identity($a*e=a / e*a = a$)
+4. R/L Inverse($a*b=e / b*a = e$)
+
+---
+
+### Lemma 4: Euclid's Lemma / Super Property of Prime Numbers
+
+Let $a, b, p \in \mathbb{N}$ with $p$ as prime.
+
+If $p \mid ab$ then $p \mid a$ or $p \mid b$
+
+#### Proof of Lemma 4
+
+{/* Todo: add lemma 4 proof (sep 8 note) */}
+
+> Coming Soon
+
+### Prime
+
+We say that $p$ is prime if it has exactly 2 divisors 1 and $p$.
+
+### Coprime
+
+We say $a$ and $b$ are coprime if $\gcd(a,b)=1$
+
+### Corollary 3: Characterization of Corpime
+
+$a$ and $b$ are coprime if and only if there exists integers $\tilde{m}$ and $\tilde{n}$ such that
+$a\tilde{m} + b\tilde{n} = 1$
+
+#### Proof of Corollary 3
+
+{/* Todo: add proof of corollary 3 note Sep 5 */}
+
+> Coming soon
