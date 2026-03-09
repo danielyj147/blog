@@ -1,0 +1,50 @@
+---
+title: 'Building Overwatch: Google Docs, but for Maps'
+date: '2026-03-01 18:00:00'
+tags: ['projects', 'webdev']
+draft: false
+summary: 'How I built a real-time collaborative mapping platform from scratch — the decisions, the rabbit holes, and what I learned along the way.'
+authors: ['default']
+---
+
+I've always been fascinated by the idea of a shared, live map — something where multiple people can draw, annotate, and coordinate on the same view in real time. Think Google Docs, but instead of a text document, it's a full 3D map with operational overlays, weather data, and live cursors showing where everyone is looking.
+
+So I built it. It's called [Overwatch](https://overwatch.danielyj.com), and it's a real-time collaborative Common Operational Picture (COP) platform.
+
+![Overwatch — collaborative zones on a 3D map](/static/images/overwatch/overwatch1.png)
+
+## What it does
+
+At its core, Overwatch lets multiple users share a single map and draw on it together. You can create points, lines, polygons, rectangles, circles — even ballistic trajectories with animated projectiles and impact zones. Everything syncs instantly. When someone draws a polygon around a neighborhood in New York, every connected user sees it appear on their screen in real time.
+
+There's a layer system (Blue Force, Annotations, Objectives, Operational Zones) so you can organize overlays and toggle visibility. There's an admin system with registration approval. And there's live weather — animated wind particles flowing across the map using real data from Open-Meteo.
+
+![Weather overlays with wind particles and satellite imagery](/static/images/overwatch/overwatch2.png)
+
+## The hard part: real-time sync
+
+The most interesting technical challenge was making collaboration actually work. If two people draw a polygon at the same time, who wins? What happens if someone goes offline, draws a bunch of stuff, and reconnects?
+
+I went with [Yjs](https://yjs.dev), a CRDT (Conflict-free Replicated Data Type) library. CRDTs are a class of data structures that can be merged without conflicts — no matter what order updates arrive in, everyone converges to the same state. It's the same idea behind how Figma handles multiplayer editing.
+
+On the server side, [Hocuspocus](https://tiptap.dev/docs/hocuspocus/introduction) handles the WebSocket connections, syncs document state between clients, and persists everything to PostgreSQL. When a client reconnects after being offline, Yjs figures out the diff and merges it cleanly.
+
+The key insight was that all shared state — markers, shapes, annotations — lives in Yjs documents, not in React state. React just subscribes to Yjs changes and re-renders. This means the collaboration layer is completely decoupled from the UI framework.
+
+## Rendering at scale
+
+For the map itself, I'm using [MapLibre GL JS](https://maplibre.org/) for the base map rendering (WebGL-based, open-source fork of Mapbox GL) and [Deck.gl](https://deck.gl) for the dynamic data layers on top.
+
+The split is intentional: MapLibre handles static and semi-static vector tiles (streets, buildings, terrain) served from [Martin](https://martin.maplibre.org/), a Rust-based tile server reading directly from PostGIS. Deck.gl handles the frequently-updating stuff — unit positions, user-drawn shapes, animated trajectories — because it's optimized for rapidly changing data with WebGL2.
+
+Vector tiles are the unsung hero here. Instead of shipping raster images (PNG tiles), Martin generates vector data that the client renders on the GPU. This means smooth zooming, rotation, and 3D tilting without re-fetching tiles, and the data payloads are tiny compared to raster.
+
+## What I'd do differently
+
+If I were starting over, I'd expose Docker container ports to localhost instead of using hardcoded container IPs in the nginx config. Right now, if Docker recreates a container, its IP can change and nginx breaks. It's a small thing, but it's bitten me once already.
+
+I'd also set up proper database backups from day one. Right now the PostgreSQL data lives in a Docker volume with no automated backup strategy, which is fine for a side project until it isn't.
+
+## Try it out
+
+Overwatch is live at [overwatch.danielyj.com](https://overwatch.danielyj.com) and the source is on [GitHub](https://github.com/danielyj147/overwatch). The whole stack runs on a single t3.micro EC2 instance behind a Cloudflare Tunnel — the entire infrastructure costs about $10/month.
