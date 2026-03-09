@@ -1,0 +1,90 @@
+---
+title: 'I made a selfie stare back at you'
+date: '2026-03-09 18:00:00'
+tags: ['project', '3d', 'graphics', 'ai']
+draft: false
+summary: 'Turning a single photo into a 3D portrait that follows your eyes — entirely in the browser.'
+authors: ['default']
+---
+
+I've always been fascinated by that feeling when a portrait's eyes seem to follow you across the room.
+I wanted to build that, but in 3D, and in a browser.
+
+So I made [GazeSplat](https://gazesplat.danielyj.com) — you upload a selfie, and it becomes an interactive 3D portrait
+where the subject's eyes actually track your cursor. You can orbit the head, zoom in, and the eyes keep following you.
+It blinks. It has micro-saccades. The head drifts slightly, like a real person trying to hold still.
+
+Try it if you want. It's kind of creepy. In a good way, I think.
+
+## How it works
+
+The whole thing runs client-side. No server, no API keys, no uploads to anyone's cloud.
+Your photo stays on your machine.
+
+The pipeline goes like this:
+
+1. **Face detection** — MediaPipe extracts 478 facial landmarks, including iris positions.
+2. **Depth estimation** — Depth Anything V2 runs in the browser via Transformers.js and produces a per-pixel depth map.
+3. **Gaussian generation** — Each pixel gets lifted into 3D space using the depth map. High-detail areas like eyes and lips get 4x the Gaussian density. Smooth skin areas get less. The result is a cloud of 100K-200K tiny 3D blobs that, together, look like the original face.
+4. **Rendering** — A custom WebGL2 renderer draws the Gaussians in real time at 30+ FPS. No Three.js — I wrote the shaders from scratch.
+5. **Gaze tracking** — The iris Gaussians are physically moved in 3D space to follow your cursor. This means the parallax is correct when you orbit the camera. The eyes don't just slide on a flat surface — they genuinely look at you from different angles.
+
+## The part I enjoyed most
+
+Getting the eyes right was honestly the most fun.
+
+There's a huge difference between eyes that technically move toward a target and eyes that feel alive.
+The first version tracked the cursor correctly but felt robotic. Dead.
+Adding micro-saccades (those tiny involuntary eye movements we all have) immediately changed the vibe.
+Then periodic blinks with slightly randomized timing. Then a barely perceptible head drift,
+like someone who's sitting still but not _perfectly_ still.
+
+None of these are hard to implement individually. A few sine waves, some randomized timers.
+But together they cross some uncanny valley threshold where the portrait goes from "animated image" to "wait, is it looking at me?"
+
+The gaze interpolation speeds matter too. Tracking the cursor needs to feel snappy —
+the eyes should keep up with fast mouse movements. But when the cursor leaves the window,
+the eyes should drift back to center gently, like someone losing interest.
+Two different easing speeds for the same system. Small thing, but it felt wrong until I got it right.
+
+## Decisions I wrestled with
+
+**Client-side vs. server-side ML.** Running depth estimation in the browser means a ~30MB model download on first visit
+and 10-20 seconds of processing. A server with a GPU could do it in under a second.
+But then I'd need infrastructure, Docker, maybe API keys — and your photo would leave your device.
+I chose the browser. The first load is slow, but subsequent visits use the cache, and your data never leaves.
+
+**Custom renderer vs. Three.js.** Three.js would have been faster to set up. But I needed to manipulate
+individual Gaussian positions every frame for the gaze tracking, and I wanted to understand the rendering pipeline
+deeply rather than treating it as a black box. Writing the vertex and fragment shaders by hand also meant
+a much smaller bundle (~50KB vs ~500KB).
+
+**Depth-map lifting vs. a dedicated single-image-to-3D model.** Models like LGM or SplatterImage produce
+better multi-view results, but they need multi-GB weights and server-side inference. The depth-map approach
+is rougher — the reconstruction falls apart beyond about 40 degrees — but it runs entirely in the browser.
+I soft-clamp the orbit range so you never see the ugly edges.
+
+## What it can't do
+
+It's a single-image reconstruction. You're not getting the back of someone's head.
+Ears are mostly guesswork. Extreme angles look bad, which is why the orbit is limited.
+
+Glasses, heavy makeup, and unusual lighting confuse the depth model.
+The gaze tracking assumes roughly symmetric eyes, so it might look slightly off for some faces.
+
+First-time visitors download 30MB of ML models. That's a lot. I wish it were smaller.
+
+## What I'd build next
+
+If I had more time, the thing I'd want most is **multi-view hallucination** — using a diffusion model to generate
+synthetic side views of the face, then using those to fill in the missing geometry.
+That would dramatically improve the experience at wider viewing angles.
+
+**Expression mirroring** would also be incredible — using your webcam to detect your facial expression
+and having the portrait mirror it back at you in real time. Smile, and it smiles. Raise an eyebrow, and it does too.
+
+But for now, I'm happy with where it is. It's a selfie that stares back at you. That's weird enough for one project.
+
+---
+
+You can try it at [gazesplat.danielyj.com](https://gazesplat.danielyj.com), or check out the [source on GitHub](https://github.com/danielyj147/gazesplat).
