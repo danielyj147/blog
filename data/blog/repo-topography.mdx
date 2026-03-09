@@ -1,0 +1,52 @@
+---
+title: 'I turned GitHub repos into 3D terrain'
+date: '2026-03-09 12:01:01'
+tags: ['projects', 'webgl', 'visualization']
+draft: false
+summary: 'What if you could look at a codebase the way you look at a mountain range?'
+authors: ['default']
+---
+
+I've always found it frustrating that the first thing you do when you encounter a new codebase is open a file tree and start clicking around. You're essentially navigating a spreadsheet to understand something that has shape, weight, and texture. A 200,000-line monorepo and a 50-file utility library look identical in a sidebar.
+
+So I built [Repo Topography](https://repo-topography.danielyj.com) — a tool that turns any public GitHub repository into an interactive 3D terrain map. You type in `owner/repo`, and a few seconds later you're looking at a landscape where directories are regions, file size is elevation, and programming languages are biomes.
+
+## The idea
+
+The core metaphor is simple: **a codebase is a landscape.**
+
+Tall peaks are large, complex files. Green forests are JavaScript. Blue oceans are Python. Desert plateaus are Rust. Valleys form naturally between directories, so related files cluster together the way they do in your head.
+
+When you load `facebook/react`, you don't see a file tree — you see a terrain with a massive green mountain range where the reconciler lives, surrounded by rolling hills of test files. In five seconds, you understand things about the repo that would take twenty minutes of clicking through folders.
+
+I added commit activity as a heat overlay too. Recently active files glow warm orange-red, while dormant code stays cool. It loads in the background after the initial terrain renders, so it feels like a slow geological survey revealing itself.
+
+## The fun parts
+
+The treemap algorithm was the most satisfying piece to get right. I used a squarified treemap — it optimizes for square-ish rectangles rather than long skinny strips. This matters a lot in 3D because a narrow rectangle becomes an invisible toothpick when you extrude it upward, while a square becomes a satisfying block you can actually click on.
+
+For the rise animation, blocks don't all appear at once. They rise from the ground in a radial wave from the center outward. The delay is calculated from each block's distance to center, so it looks like the terrain is growing organically. Small detail, but it makes the whole thing feel alive.
+
+The height mapping uses a power curve instead of linear scaling. If you just map file size directly to height, one massive generated file will flatten everything else into a pancake. The power curve (`pow(size / maxSize, 0.4)`) compresses the extremes so you get a landscape with clear peaks and gentle hills, rather than one skyscraper in a parking lot.
+
+## The hard parts
+
+Performance was the main challenge. A repo like `facebook/react` has thousands of files, and rendering thousands of individual Three.js meshes tanks the frame rate immediately.
+
+The solution was a dual rendering path. Small repos (under 500 files) get individual meshes with custom GLSL shaders — you get per-block hover effects, smooth animations, the full experience. Larger repos switch to `InstancedMesh`, which batches everything into a single draw call with per-instance color attributes stored in typed arrays. This gets 10,000+ block repos running at 60fps.
+
+The click detection was another fun one. Raycasting against thousands of meshes is expensive. Instead, I built a spatial grid — basically a 2D hash map of block positions — so finding which block you clicked is O(1) instead of O(n). Simple data structure, big payoff.
+
+Custom GLSL shaders were both the most rewarding and most annoying part. They let me do per-face lighting (top faces are brighter than sides), edge darkening for depth, and the heat glow effect. But debugging shaders is painful — you can't `console.log` a fragment shader. You end up coloring pixels red to figure out what's happening, which feels like debugging with smoke signals.
+
+## What I'd build next
+
+The thing I most want to add is a **time scrubber**. Imagine scrubbing through a repo's commit history and watching the terrain evolve — new files rising from the ground, deleted files crumbling, active areas pulsing. That would be genuinely useful for understanding how a project evolved.
+
+A **team heatmap** would be interesting too — color by contributor instead of language, and suddenly you can see ownership boundaries and bus-factor risks.
+
+---
+
+If you want to try it: [repo-topography.danielyj.com](https://repo-topography.danielyj.com). Type in any public repo and see what its landscape looks like. I recommend starting with something large — `facebook/react`, `vercel/next.js`, or your own project.
+
+The code is on [GitHub](https://github.com/danielyj147/repo-topography) if you want to poke around.
