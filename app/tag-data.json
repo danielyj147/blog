@@ -1,6 +1,11 @@
 {
+  "philosophy": 2,
+  "politics": 1,
+  "democracy": 1,
+  "thoughts": 2,
+  "albert-camus": 1,
   "class": 3,
-  "data-analysis": 1,
   "mathematics": 3,
-  "notes": 3
+  "notes": 3,
+  "data-analysis": 1
 }
