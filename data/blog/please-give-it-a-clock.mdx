@@ -1,0 +1,62 @@
+---
+title: "Claude doesn't know what time it is"
+date: '2026-05-23 15:00:00'
+tags: ['AI']
+draft: true
+summary: "Gemini has a clock. ChatGPT has the date. Claude has neither, and the obvious fix isn't as obvious as it looks."
+authors: ['default']
+---
+
+If you ask Claude what time it is, it will tell you it doesn't have a clock.
+
+![Claude says it doesn't have a real-time clock when asked the time](/static/images/no-clock.png)
+
+Sometimes it just guesses, often incorrectly.
+
+![Actual time around 10 PM. Claude confidently says 1:33 PM.](/static/images/wrong-time.png)
+
+Vibe timing, if you will.
+
+I think this is a sinister bug that meaningfully impacts user experience. Especially when the prompt is time-sensitive in nature.
+
+![Dinner at 3](/static/images/dinner-at-3.png)
+
+This is a Claude-specific problem. Gemini injects the current date and time into its system instructions on every turn (I think? It consistently gets the time right, and VPNs don't seem to impact it, so it isn't basing its time on IP, but I'm not entirely sure how it does this). OpenAI seems to inject the time based on IP; you can check this by changing your IP and asking it what time it is.
+
+Getting the time wrong sounds like a minor papercut until you notice how often the model is making decisions that depend on the time and getting them silently wrong. Restaurant hours are the obvious one. But it shows up everywhere timing matters, like drafting an email reply, negotiation cadence, or anything where the right answer at 9 AM is different from the right answer at 11 PM.
+
+And then there's the sleep thing.
+
+## Why does it keep telling me to go to bed?
+
+I mean this literally. It keeps sending me to bed.
+
+![Claude keeps telling me to sleep](/static/images/sleep.png)
+
+The screenshot above was around 10 PM, which is at least defensible. But it often does it in the morning, too.
+
+![meme: sending user to bed in the morning](/static/images/got-chamber.png)
+
+I'm not sure where the obsession with my sleep comes from. But the failure mode underneath it is the time thing. The model has decided, based on vibes, that it's late, and is now acting on that belief. And the annoying corollary is that if I tell it, "Actually, it's 9 AM," I'm not sure whether it believes me, or whether it has quietly concluded I'm a workaholic in denial and is going to keep nudging me toward rest in subtler ways.
+
+You can, of course, just paste the time into the prompts. But this doesn't really work for agentic usage and gets very annoying. Letting it infer time from context burns precious tokens on something that literally every other piece of software on the device already knows and can provide.
+
+## This is actually a design question
+
+The cheap take here is "LLMs can't solve a trivial problem," but not really. Gemini and ChatGPT both ship versions of the fix, so it is clearly possible. (although, Gemini seems to inject time [only for the web interface, not the API](https://medium.com/google-cloud/importance-of-time-information-in-gemini-and-current-time-handling-cef266704039)) The interesting question is what the right version looks like, and that turns out to be less obvious than it sounds.
+
+**Should the timestamp go in every system prompt, or behind a tool call?** Prompt injection is simpler and means the model "just knows." Gemini went this route. But every prompt now carries the timestamp, which is especially damaging for short prompts, and possibly bad for behavior, since you're now varying a token in the context window on every call. A `get_current_time()` tool is cleaner and doesn't inflate every prompt, but the model has to know to call it, which it often won't for queries where time matters implicitly.
+
+**Does the time in the prompt change the model's personality?** This is the question I'm actually curious about. If you inject `It is currently 2:47 AM` into the system prompt, does the model get more clipped? More worried about you? More likely to suggest rest? My anecdotal sense is yes, but I haven't seen this measured. Gemini would be the natural place to test it since they've been doing this in production for a while. If it turns out the model overfits to "it is late, therefore user is tired," you'd want a coarse time-of-day bucket rather than a precise timestamp.
+
+## The minimum viable fix
+
+Anthropic could just create a tool that fetches time based on the user's IP like OpenAI. If the personality concern turns out to be real, make it a toggle in settings.
+
+If they don't want to ship that, the next-best thing is a client-side bang like `/now` that injects an ISO 8601 timestamp plus an IANA timezone into the prompt. Something along these lines:
+
+```text
+Current time: 2026-05-21T22:04:00-04:00 (America/New_York)
+```
+
+It's time to give it a clock.
