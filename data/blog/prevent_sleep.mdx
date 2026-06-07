@@ -7,9 +7,13 @@ summary: 'caffeinate blocks idle sleep. pmset disablesleep blocks lid-close slee
 authors: ['default']
 ---
 
-`caffeinate` = idle sleep. `pmset disablesleep` = lid-close sleep. Different layers.
+`caffeinate` = prevents idle sleep. `pmset disablesleep` = prevents lid-close sleep.
 
 ## Lid open
+
+```bash
+caffeinate claude -c --permission-mode bypassPermissions   # keep mac awake, resume latest thread, skip permission prompts
+```
 
 ```bash
 caffeinate <command>     # hold until command finishes
@@ -20,11 +24,11 @@ caffeinate -t 3600       # hold 3600s
 caffeinate -w <pid>      # hold until pid exits
 ```
 
-Assertion drops when the `caffeinate` process dies.
-
 ## Lid closed
 
-`caffeinate` does nothing here.
+```bash
+sudo pmset -a disablesleep 1; claude -c --permission-mode bypassPermissions; sudo pmset -a disablesleep 0   # run with lid closed, then re-enable sleep
+```
 
 ```bash
 sudo pmset -a disablesleep 1     # enable lid-closed run (all power sources)
@@ -39,7 +43,3 @@ sudo pmset -a disablesleep 0     # revert (persists across reboots, so do it)
 pmset -g assertions      # who is holding sleep open
 pmset -g                 # current settings
 ```
-
-## Warning
-
-Lid shut + sustained load = no airflow = thermal risk. Sleep also kills network sockets. For long unattended runs, SSH into a box that never sleeps and use `tmux`.
