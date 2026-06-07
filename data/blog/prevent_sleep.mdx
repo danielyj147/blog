@@ -1,0 +1,45 @@
+---
+title: 'macOS Sleep Prevention Cheat Sheet'
+date: '2026-06-07 01:00:00'
+tags: ['macos', 'cli', 'reference']
+draft: False
+summary: 'caffeinate blocks idle sleep. pmset disablesleep blocks lid-close sleep.'
+authors: ['default']
+---
+
+`caffeinate` = idle sleep. `pmset disablesleep` = lid-close sleep. Different layers.
+
+## Lid open
+
+```bash
+caffeinate <command>     # hold until command finishes
+caffeinate -i            # block idle sleep
+caffeinate -d            # block display sleep
+caffeinate -dimsu        # block all
+caffeinate -t 3600       # hold 3600s
+caffeinate -w <pid>      # hold until pid exits
+```
+
+Assertion drops when the `caffeinate` process dies.
+
+## Lid closed
+
+`caffeinate` does nothing here.
+
+```bash
+sudo pmset -a disablesleep 1     # enable lid-closed run (all power sources)
+sudo pmset -a disablesleep 0     # revert (persists across reboots, so do it)
+```
+
+`-b` battery, `-c` charger, `-a` both.
+
+## Check
+
+```bash
+pmset -g assertions      # who is holding sleep open
+pmset -g                 # current settings
+```
+
+## Warning
+
+Lid shut + sustained load = no airflow = thermal risk. Sleep also kills network sockets. For long unattended runs, SSH into a box that never sleeps and use `tmux`.
